@@ -14,7 +14,7 @@ public:
     ~URLOperation();
 
     QString getContent();
-    int getBook();//get one book's chapter and each chapter's url
+    int getBookContent();//get one book's chapter and each chapter's url
 
 public:
     QUrl url;

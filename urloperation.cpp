@@ -3,7 +3,14 @@
 #include <QEventLoop>
 #include <QtCore>
 #include <QTextCodec>
+#include <strings.h>
+#include <iostream>
+#include "ParserDom.h"
 
+using namespace std;
+using namespace htmlcxx;
+
+QString mainUrl = "http://www.shumilou.co/";
 
 URLOperation::URLOperation(QString url)
 {
@@ -34,9 +41,16 @@ QString URLOperation::getContent()
 
 }
 
-int URLOperation::getBook()
+int URLOperation::getBookContent()
 {
+    //解析一段Html代码
+    QString content = this->getContent();
+    string html = content.toStdString();
 
+    HTML::ParserDom parser;
+
+    tree<HTML::Node> dom = parser.parseTree(html);
+    cout<< dom << endl;
 }
 
 

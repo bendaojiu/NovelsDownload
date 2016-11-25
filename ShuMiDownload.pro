@@ -16,11 +16,20 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     readxml.cpp \
-    urloperation.cpp
+    urloperation.cpp \
+    ParserDom.cc \
+    ParserSax.cc \
+    Node.cc \
+    ParserSax.tcc
 
 HEADERS  += mainwindow.h \
     readxml.h \
-    urloperation.h
+    urloperation.h \
+    ParserDom.h \
+    ParserSax.h \
+    Node.h \
+    wincstring.h \
+    debug.h
 
 DISTFILES +=
 

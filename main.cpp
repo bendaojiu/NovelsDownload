@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
 //    w.show();
 
     QCoreApplication a(argc, argv);
-    URLOperation tmpUrl("http://www.shumilou.co/");
-    qDebug()<<tmpUrl.getContent();
+    URLOperation tmpUrl("http://www.shumilou.co/yichangshengwujianwenlu");
+    tmpUrl.getBookContent();
 //    dom.writeXML();
 //    dom.readXML();
 //    qDebug() << "**************";
