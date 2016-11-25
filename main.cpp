@@ -1,4 +1,4 @@
-#include "readxml.h"
+#include "urloperation.h"
 #include <QApplication>
 #include <QDebug>
 
@@ -9,7 +9,8 @@ int main(int argc, char *argv[])
 //    w.show();
 
     QCoreApplication a(argc, argv);
-    ReadXML dom;
+    URLOperation tmpUrl("http://www.shumilou.co/");
+    qDebug()<<tmpUrl.getContent();
 //    dom.writeXML();
 //    dom.readXML();
 //    qDebug() << "**************";
