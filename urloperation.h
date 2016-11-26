@@ -20,7 +20,7 @@ public:
     QUrl url;
     QStringList *chapterList;//store chapter list
     QStringList *urlList;//store url list
-    QStringList &getUrlList() const;
+
 };
 
 #endif // URLOPERATION_H
