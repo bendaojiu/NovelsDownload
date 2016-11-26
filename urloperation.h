@@ -7,6 +7,16 @@
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkAccessManager>
 
+// 用于存储小说的基本信息（处理状态，名称，图标网址，作者，状态，简介）
+struct NovelsInfo{
+    bool isDo = false;
+    QString name;
+    QString url;
+    QString author;
+    QString state;
+    QString  abstract;
+};
+
 class URLOperation
 {
 public:
@@ -21,6 +31,9 @@ public:
     QStringList *chapterList;//store chapter list
     QStringList *urlList;//store url list
 
+    //本分类热门小说信息（名词，网址）
+    QStringList *hotNameList;
+    QStringList *hotUrlList;
 };
 
 #endif // URLOPERATION_H
