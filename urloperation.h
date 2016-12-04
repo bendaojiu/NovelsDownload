@@ -25,15 +25,17 @@ public:
 
     QString getContent();
     int getBookContent();//get one book's chapter and each chapter's url
-    int getChapterContent();//get a chapter's content
+    int getChapterContent();//get a chapter's content and next chapter'url
     int getClassifyNovels();
     int getHomeContent();
-    bool isOnline();
+    bool isOnline();//is this online?
 
 
 public:
     QUrl url;
-    QUrl nextUrl;//用于存储下一章的网址
+    QString nextUrl;//用于存储下一章的网址
+    //chapter content
+    QString text;
     NovelsInfo info;
     QStringList *chapterList;//store chapter list
     QStringList *urlList;//store url list
@@ -42,8 +44,7 @@ public:
     QStringList *hotNameList;
     QStringList *hotUrlList;
 
-    //chapter content
-    QString text;
+
 
 private:
     int getNovelsAbstract(QString str);//用于获取一段字符串中关于作品简介的信息

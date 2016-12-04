@@ -31,8 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(widget);
     this->resize(600, 700);
 
-    URLOperation url(mainUrl);
-    qDebug()<<url.isOnline();
+    URLOperation url("http://www.shumilou.co/yichangshengwujianwenlu/6938210.html");
+    int i = url.getChapterContent();
+    qDebug()<<url.text;
+    qDebug()<<i;
 }
 
 MainWindow::~MainWindow()

@@ -73,6 +73,7 @@ int URLOperation::getBookContent()
     return 0;
 }
 
+//-10代表没有下一页了，只有text,而没有nextUrl
 int URLOperation::getChapterContent()
 {
     QString temStr1 = this->getContent();
@@ -88,12 +89,12 @@ int URLOperation::getChapterContent()
     }
     QString temStr2 = temStr1.mid(index1+10, temStr1.length()-index1-10);
     temStr1.clear();
-    index1 = temStr2.indexOf("/div>");
+    index1 = temStr2.indexOf("readc");
     if (index1 == -1)
     {
         return -3;
     }
-    temStr1 = temStr2.mid(index1+5, temStr2.length()-index1-5);
+    temStr1 = temStr2.mid(index1+38, temStr2.length()-index1-38);
     temStr2.clear();
     int index2 = temStr1.indexOf("<b>");
     if (index2 == -1)
@@ -101,9 +102,16 @@ int URLOperation::getChapterContent()
         return -4;
     }
     text = temStr1.mid(0, index2-3);
+    temStr2 = temStr1.mid(index2, temStr1.length()-index2);
     temStr1.clear();
+    index1 = temStr2.indexOf("目录(回车)");
+    index2 = temStr2.indexOf("下一页");
+    if ((index2-index1) < 20)
+    {
+        return -10;
+    }
+    nextUrl = temStr2.mid(index1+20, index2-index1-22);
     temStr2.clear();
-
     return 0;
 }
 
