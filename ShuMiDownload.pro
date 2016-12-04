@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += xml network
+QT       += xml network widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

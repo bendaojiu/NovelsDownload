@@ -28,6 +28,8 @@ public:
     int getChapterContent();//get a chapter's content
     int getClassifyNovels();
     int getHomeContent();
+    bool isOnline();
+
 
 public:
     QUrl url;

@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <QTextCodec>
 #include <strings.h>
+#include <QNetworkConfigurationManager>
 
 
 
@@ -155,6 +156,12 @@ int URLOperation::getHomeContent()
         //error
         return -2;
     }
+}
+
+bool URLOperation::isOnline()
+{
+    QNetworkConfigurationManager mgr;
+    return mgr.isOnline();
 }
 
 /********************************************
