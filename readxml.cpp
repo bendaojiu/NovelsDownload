@@ -1,4 +1,4 @@
-#include "readxml.h"
+﻿#include "readxml.h"
 #include <QDebug>
 
 ReadXML::ReadXML()
@@ -69,14 +69,6 @@ int ReadXML::writeXML(QString name, QString url)
         }
 
         element = element.nextSiblingElement();
-
-
-        //            QDomNode nodeson = element.firstChild();
-        //            while (!nodeson.isNull())// find the end
-        //            {
-        //                nodeson = nodeson.nextSibling();
-        //            }
-        //            element = nodeson.toElement();
         QDomElement userElement = doc.createElement("USERINFO");;
         attr = doc.createAttribute("NAME");
         attr.setValue(name);
@@ -214,7 +206,7 @@ int ReadXML::writeXML()
     return 0;
 }
 
-int ReadXML::readXML()
+int ReadXML::readXML(QString category, QStringList &name, QStringList &url)
 {
     QDomDocument doc;
 //    QFile file(fileName);
@@ -229,7 +221,7 @@ int ReadXML::readXML()
         return -1;
     }
 
-    file.close();
+
     QDomElement root = doc.documentElement();
     QDomNode node = root.firstChild();
     while(!node.isNull())
@@ -239,30 +231,36 @@ int ReadXML::readXML()
         {
             //用于区分，是ALL的时候，表示小说的分类
             //是COLLECTION的时候，表示收藏的小说
-            if ("ALL" == element.text())
-                qDebug()<<"this is all";
-            else if ("COLLECTION" == element.text())
-                qDebug()<<"this is the collection books";
-            //qDebug() << element.tagName() << ":" << element.text();
-            QDomNode nodeson = element.firstChild();
-            while (!nodeson.isNull())
+            if (category != element.text())
             {
-                QDomElement elementson = nodeson.toElement();
-                if (!elementson.isNull())
-                {
-                    if (elementson.hasAttribute("NAME"))
-                    {
-                        qDebug() << "---" << elementson.attributeNode("NAME").value();
-                    }
-                    if (elementson.hasAttribute("URL"))
-                    {
-                        qDebug() << "---" << elementson.attributeNode("URL").value();
-                    }
-                }
-                nodeson = nodeson.nextSibling();
+                node = node.nextSibling();
+                element = node.toElement();
+                continue;
             }
+            else
+            {
+                QDomNode nodeson = node.nextSibling().firstChild();
+                QDomElement elementson = nodeson.toElement();
+                while (!nodeson.isNull())
+                {
+                    if (!elementson.isNull())
+                    {
+                        if (elementson.hasAttribute("NAME"))
+                        {
+                            name.append(elementson.attributeNode("NAME").value());
+                        }
+                        if (elementson.hasAttribute("URL"))
+                        {
+                            url.append(elementson.attributeNode("URL").value());
+                        }
+                    }
+                    nodeson = nodeson.nextSibling();
+                    elementson = nodeson.toElement();
+                }
+            }
+            node = node.nextSibling();
         }
-        node = node.nextSibling();
     }
+    file.close();
     return 0;
 }
