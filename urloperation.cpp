@@ -12,8 +12,6 @@ QString mainUrl = "http://www.shumilou.co/";
 
 URLOperation::URLOperation(QString url)
 {
-    chapterList = new QStringList;
-    urlList = new QStringList;
     this->url.setUrl(url);
 }
 
@@ -39,7 +37,7 @@ QString URLOperation::getContent()
 
 }
 
-int URLOperation::getBookContent()
+int URLOperation::getBookContent(QStringList &nameList, QStringList &urlList)
 {
     QString htmlContent = this->getContent();
     if (htmlContent.isEmpty())
@@ -58,13 +56,13 @@ int URLOperation::getBookContent()
         //error
     }
     QString str2 = htmlContent.mid(index2, (index3-index2));
-    recv = this->getNovelsChapter(str2);
+    recv = this->getNovelsChapter(str2, nameList, urlList);
     if (recv != 0)
     {
         //error
     }
     QString str3 = htmlContent.mid(index3);
-    recv = this->getNovelsHot(str3);
+    recv = this->getAllNovelsFromString(str3, nameList, urlList);
     if (recv != 0)
     {
         //error
@@ -74,7 +72,7 @@ int URLOperation::getBookContent()
 }
 
 //-10代表没有下一页了，只有text,而没有nextUrl
-int URLOperation::getChapterContent()
+int URLOperation::getChapterContent(QString &text, QString &nextUrl)
 {
     QString temStr1 = this->getContent();
     if (temStr1.isEmpty())
@@ -115,7 +113,7 @@ int URLOperation::getChapterContent()
     return 0;
 }
 
-int URLOperation::getClassifyNovels()
+int URLOperation::getClassifyNovels(QStringList &nameList, QStringList &urlList)
 {
     QString htmlContent = this->getContent();
     if (htmlContent.isEmpty())
@@ -124,14 +122,15 @@ int URLOperation::getClassifyNovels()
         return -1;
     }
     int index1 = htmlContent.indexOf("class=\"tit\">");
-    int recv = this->getNovelsHot(htmlContent.mid(index1+12, htmlContent.length()-index1-12));
+    int recv = this->getAllNovelsFromString(htmlContent.mid(index1+12, htmlContent.length()-index1-12),\
+                                            nameList, urlList);
     if (recv != 0)
     {
         //error
     }
 }
 
-int URLOperation::getHomeContent()
+int URLOperation::getHomeContent(QStringList &nameList, QStringList &urlList)
 {
     QString temStr1 = this->getContent();
     if (temStr1.isEmpty())
@@ -144,21 +143,21 @@ int URLOperation::getHomeContent()
     temStr1.clear();
     index1 = temStr2.indexOf("class=\"tit\">");
     temStr1 = temStr2.mid(0, index1);
-    int recv = this->getNovelsHot(temStr1);
+    int recv = this->getAllNovelsFromString(temStr1, nameList, urlList);
     if (recv != 0)
     {
         //error
         return -2;
     }
-    hotNameList->append("none");
-    hotUrlList->append("none");//set as division
+    nameList.append("none");
+    urlList.append("none");//set as division
     temStr1.clear();
     index1 = temStr2.indexOf("class=\"tit\">");
     temStr1 = temStr2.mid(index1+12, temStr2.length()-index1-12);
     temStr2.clear();
     index1 = temStr1.indexOf("class=\"tit\">");
     temStr2 = temStr1.mid(0, index1);
-    recv = this->getNovelsHot(temStr2);
+    recv = this->getAllNovelsFromString(temStr2, nameList, urlList);
     if (recv != 0)
     {
         //error
@@ -224,7 +223,7 @@ int URLOperation::getNovelsAbstract(QString str)
     return 0;
 }
 
-int URLOperation::getNovelsChapter(QString str)
+int URLOperation::getNovelsChapter(QString str, QStringList &nameList, QStringList &urlList)
 {
     int index1 = str.indexOf("a href=");
     if (index1 == 0)
@@ -235,11 +234,11 @@ int URLOperation::getNovelsChapter(QString str)
     while(1)
     {
         index2  = temStr.indexOf(">");
-        urlList->append(temStr.mid(8, index2-9));
+        urlList.append(temStr.mid(8, index2-9));
         temStr2 = temStr.mid(index2, temStr.length()-index2);
         temStr.clear();
         index2 = temStr2.indexOf("<");
-        chapterList->append(temStr2.mid(1, index2-1));
+        nameList.append(temStr2.mid(1, index2-1));
         temStr = temStr2.mid(index2, temStr2.length()-index2);
         temStr2.clear();
         index1 = temStr.indexOf("a href=");
@@ -251,7 +250,7 @@ int URLOperation::getNovelsChapter(QString str)
     return 0;
 }
 
-int URLOperation::getNovelsHot(QString str)
+int URLOperation::getAllNovelsFromString(QString str, QStringList &name, QStringList &url)
 {
     int index1 = str.indexOf("a href=");
     if (index1 == 0)
@@ -262,11 +261,11 @@ int URLOperation::getNovelsHot(QString str)
     while(1)
     {
         index2  = temStr1.indexOf(">");
-        hotUrlList->append(temStr1.mid(8, index2-9));
+        url.append(temStr1.mid(8, index2-9));
         temStr2 = temStr1.mid(index2, temStr1.length()-index2);
         temStr1.clear();
         index2 = temStr2.indexOf("<");
-        hotNameList->append(temStr2.mid(1, index2-1));
+        name.append(temStr2.mid(1, index2-1));
         temStr1 = temStr2.mid(index2, temStr2.length()-index2);
         temStr2.clear();
         index1 = temStr1.indexOf("a href=");

@@ -16,11 +16,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     readxml.cpp \
-    urloperation.cpp
+    urloperation.cpp \
+    urlthread.cpp
 
 HEADERS  += mainwindow.h \
     readxml.h \
-    urloperation.h
+    urloperation.h \
+    urlthread.h
 
 DISTFILES +=
 

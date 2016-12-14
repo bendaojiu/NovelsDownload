@@ -24,31 +24,22 @@ public:
     ~URLOperation();
 
     QString getContent();
-    int getBookContent();//get one book's chapter and each chapter's url
-    int getChapterContent();//get a chapter's content and next chapter'url
-    int getClassifyNovels();
-    int getHomeContent();
+    int getBookContent(QStringList &nameList, QStringList &urlList);//get one book's chapter and each chapter's url
+    int getChapterContent(QString &text, QString &nextUrl);//get a chapter's content and next chapter'url
+    int getClassifyNovels(QStringList &nameList, QStringList &urlList);
+    int getHomeContent(QStringList &nameList, QStringList &urlList);
+    int getAllNovelsFromString(QString str, QStringList &name, QStringList &url);
     bool isOnline();//is this online?
 
 
 public:
-    QUrl url;
-    QString nextUrl;//用于存储下一章的网址
-    //chapter content
-    QString text;
+    QUrl url;    
     NovelsInfo info;
-    QStringList *chapterList;//store chapter list
-    QStringList *urlList;//store url list
-
-    //本分类热门小说信息（名词，网址）
-    QStringList *hotNameList;
-    QStringList *hotUrlList;
-
 
 
 private:
     int getNovelsAbstract(QString str);//用于获取一段字符串中关于作品简介的信息
-    int getNovelsChapter(QString str);// 用于获取一段字符串中小说章节的信息
+    int getNovelsChapter(QString str, QStringList &nameList, QStringList &urlList);// 用于获取一段字符串中小说章节的信息
     int getNovelsHot(QString str);//用于获取一段字符串中热门小说的信息
 };
 
